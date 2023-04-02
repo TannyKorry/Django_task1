@@ -1,7 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-# from django.conf import settings
-from django.core.paginator import Paginator
 
 DATA = {
     'omlet': {
@@ -31,19 +29,24 @@ DATA = {
 #   }
 # }
 
-
-def cooking_recipe(request):
+def get_recipe(request):
     recipe = request.GET.get("recipe")
     person = int(request.GET.get("person", 1))
-    for dush, ingredients in DATA.items():
-        if dush == recipe:
+    if recipe not in DATA.keys():
+        context = {
+            'recipe': {},
+            'person': person,
+            'dush': recipe,
+        }
+    else:
+        for dush, ingredients in DATA.items():
             ingr = {}
-            for k, v in ingredients.items():
-                ingr.setdefault(k, round(v * person,2))
+            if dush == recipe:
+                for k, v in ingredients.items():
+                    ingr.setdefault(k, round(v * person, 2))
                 context = {
                     'recipe': ingr,
                     'person': person,
-                    'dush': dush,
-                    }
-
+                    'dush': recipe,
+                }
     return render(request, 'calculator/index.html', context)
