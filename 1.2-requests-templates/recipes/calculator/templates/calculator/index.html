@@ -5,10 +5,19 @@
     <title>Рецепты</title>
 </head>
 <body>
+{% if person == 1 %}
+    <h3>Для приготовления {{dush}} на {{person}} персону понадобится: </h3>
+{% elif person < 5 %}
+    <h3>Для приготовления {{dush}} на {{person}} персоны понадобится: </h3>
+{% else %}
+    <h3>Для приготовления {{dush}} на {{person}} персон понадобится: </h3>
+{% endif %}
+<ul>
 {% for ingredient, amount in recipe.items %}
-    <p>{{ ingredient }}: {{ amount }}</p>
+    <li>{{ ingredient }}: {{ amount }}</li>
 {% empty %}
     <p>Такого рецепта не знаю :(</p>
 {% endfor %}
+</ul>
 </body>
 </html>

@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+# from django.conf import settings
+from django.core.paginator import Paginator
 
 DATA = {
     'omlet': {
@@ -18,7 +21,6 @@ DATA = {
     },
     # можете добавить свои рецепты ;)
 }
-
 # Напишите ваш обработчик. Используйте DATA как источник данных
 # Результат - render(request, 'calculator/index.html', context)
 # В качестве контекста должен быть передан словарь с рецептом:
@@ -28,3 +30,20 @@ DATA = {
 #     'ингредиент2': количество2,
 #   }
 # }
+
+
+def cooking_recipe(request):
+    recipe = request.GET.get("recipe")
+    person = int(request.GET.get("person", 1))
+    for dush, ingredients in DATA.items():
+        if dush == recipe:
+            ingr = {}
+            for k, v in ingredients.items():
+                ingr.setdefault(k, round(v * person,2))
+                context = {
+                    'recipe': ingr,
+                    'person': person,
+                    'dush': dush,
+                    }
+
+    return render(request, 'calculator/index.html', context)
