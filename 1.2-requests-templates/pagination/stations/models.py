@@ -5,12 +5,10 @@
 #     Street = models.CharField(max_length=120)
 #     District = models.CharField(max_length=120)
 #
-#     class Meta:
-#         ordering = ['-name']
+#
 #
 #     def __str__(self):
 #         return self.Name
 #
 #     def __repr__(self):
 #         return self.Name
-#
