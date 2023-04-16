@@ -19,19 +19,16 @@ def bus_stations(request):
     with open('data-398-2018-08-30.csv', newline='', encoding='utf8') as f:
         stantions = []
         f_reader = csv.DictReader(f)
-        stantion = []
         for row in f_reader:
-            stantions.append(row.items())
-        for lst in stantions:
-            stantion = list(lst)
+            stantions.append(row)
 
         page_number = int(request.GET.get("page", 1))
-        paginator = Paginator(stantion, 10)
+        paginator = Paginator(stantions, 10)
         page = paginator.get_page(page_number)
         context = {
-            'bus_stations': paginator,
+            'bus_stations': page,
             'page': page,
         }
     return render(request, 'stations/index.html', context)
 
-    bus_stationstions('bus_stations/')
+    # bus_stationstions('bus_stations/')
