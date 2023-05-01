@@ -1,8 +1,8 @@
 import csv
-
 from django.core.management.base import BaseCommand
+from django.http import HttpResponse
+from django.template.defaultfilters import slugify
 from phones.models import Phone
-
 
 
 class Command(BaseCommand):
@@ -14,15 +14,15 @@ class Command(BaseCommand):
             phones = list(csv.DictReader(file, delimiter=';'))
             for itm in phones:
                 phone = Phone(
-                    id=itm.get('id'),
-                    name=itm.get('name'),
-                    slug=itm.get('name'),
-                    price=int(itm.get('price')),
-                    image=itm.get('image'),
-                    release_date=itm.get('release_date'),
-                    lte_exists=itm.get('lte_exists')
+                    id=itm['id'],
+                    name=itm['name'],
+                    slug=slugify(itm['name']),
+                    price=int(itm['price']),
+                    image=itm['image'],
+                    release_date=itm['release_date'],
+                    lte_exists=itm['lte_exists']
                 )
                 phone.save()
-
+        return
 
             # TODO: Добавьте сохранение модели
